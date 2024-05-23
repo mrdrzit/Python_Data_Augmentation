@@ -17,5 +17,14 @@ csv_files_path = filedialog.askopenfilenames(title='Select the csv files', filet
 # Hint to create the dataframe:
 # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
 
-# The read dataframe function already imports the data as a dataframe, so it probably easier to create a copy of the dataframe and modify it
-# into a second variable that will be used to store the data in the format described above
+# The read dataframe function already imports the data as a dataframe, so it probably easier to create a copy of the dataframe and modify
+def read_csv(csv_files_path):
+    dataframes = []
+    for csv_file in csv_files_path:
+        df = pd.read_csv(csv_file)
+        dataframes.append(df)
+    return dataframes
+        
+df_copy = read_csv(csv_files_path)
+
+pass
