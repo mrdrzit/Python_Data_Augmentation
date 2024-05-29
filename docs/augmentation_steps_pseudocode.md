@@ -25,6 +25,16 @@
     - **Include** scaling between 80% and 120%.
     - **Include** brightness adjustment between 80% and 120%.
 
+    Augmentation list:
+    # Gamma contrast
+    # Sigmoid contrast
+    # Sharpen
+    # Rotate
+    # Multiply Saturation
+    # Remove Saturation
+    # Motion Blur
+    
+
 #### Step 4: Apply Augmentation and Adjust Keypoints
 
 1. **Initialize** an empty list to store augmented data.
