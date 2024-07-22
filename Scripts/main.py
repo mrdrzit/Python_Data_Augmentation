@@ -6,8 +6,8 @@ from imgaug.augmentables import Keypoint, KeypointsOnImage
 from matplotlib import pyplot as plt
 from PIL import Image
 
+save_images = False
 image_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "images"))
-# Load the image files using tkinter
 images_path = list(
     [
         os.path.join(image_folder, file)
@@ -18,7 +18,6 @@ images_path = list(
 images_names = list([file for file in os.listdir(image_folder) if file.endswith(".png") or file.endswith(".jpg")])
 csv_files_path = list([os.path.join(image_folder, file) for file in os.listdir(image_folder) if file.endswith(".csv")])
 
-
 # The read dataframe function already imports the data as a dataframe, so its probably easier to create a copy of the dataframe and modify it
 def read_csv(csv_files_path):
     dataframes = []
@@ -27,7 +26,6 @@ def read_csv(csv_files_path):
             df = pd.read_csv(csv_file, header=1)
             dataframes.append(df.iloc[:, 2:])
     return dataframes
-
 
 class Animal:
     """
@@ -45,7 +43,6 @@ class Animal:
             data = df.iloc[[0, 1, index]]
             self.image_data.append({name: data})
 
-
 animal_aug_list = []
 csv_list = read_csv(csv_files_path)
 
@@ -56,7 +53,6 @@ sharpen_alpha = 0.7
 sharpen_lightness = 1.3
 saturation = 2
 desaturation = 0.5
-
 
 for csv_data_frame in csv_list:
     animal = Animal()
@@ -180,14 +176,14 @@ for image, image_name in zip(images_path, images_names):
         'half_removed_saturation_image'
     ]
     
-
     # Save the augmented images
-    for i, image_to_save in enumerate(image_list):
-        augmentation = aug_list[i]
-        path_to_save = os.path.join(image_folder, "augmented_images", f"{image_name}_{augmentation}.png")
-        image_to_save = Image.fromarray(image_to_save)
-        image_to_save.save(path_to_save)
-        print(f"Image saved at {path_to_save}")
+    if save_images:
+        for i, image_to_save in enumerate(image_list):
+            augmentation = aug_list[i]
+            path_to_save = os.path.join(image_folder, "augmented_images", f"{image_name}_{augmentation}.png")
+            image_to_save = Image.fromarray(image_to_save)
+            image_to_save.save(path_to_save)
+            print(f"Image saved at {path_to_save}")
 
     if (
         len(blurred_kps)
@@ -298,8 +294,7 @@ for image, image_name in zip(images_path, images_names):
     ax[2][5].imshow(half_removed_saturation_image)
     ax[2][5].plot(x_half_removed_saturation, y_half_removed_saturation, "ro", markersize=3)
     ax[2][5].set_title(f"Half - Desaturation = {desaturation/2}")
-
-    # plt.tight_layout()
-    # plt.show()
+    plt.tight_layout()
+    plt.show()
 
     pass
